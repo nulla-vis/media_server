@@ -1,0 +1,23 @@
+<h2 class="page-header">アップローダー検索</h2>
+<form action="/authors" method="GET"><!-- pakai get karena di routes(controller)-nya pakai router.get -->
+    <div class="form-row">
+        <div class="form-item">
+            <label for="name">氏名</label>
+            <input type="text" name="name" value="<%= searchOptions.name %>">
+        </div>
+    </div>
+    <div class="div form-row form-row-end">
+        <button class="btn btn-primary" type="submit">検索</button>
+    </div>
+</form>
+<br>
+<% authors.forEach(author => { %>
+    <div class="author-row">
+        <div class="author-name"><%= author.name %></div>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/authors/<%= author.id %>">見る</a>
+            <a class="btn btn-primary"  href="/authors/<%= author.id %>/edit">編集</a>
+            <%- include('../partials/deleteForm', { url: `/authors/${author.id}` })%>
+        </div>
+    </div>
+<% }) %>

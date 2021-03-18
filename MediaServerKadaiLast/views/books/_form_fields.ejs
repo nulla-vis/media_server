@@ -1,0 +1,40 @@
+<div class="form-row">
+    <div class="form-item">
+        <label for="title">題名</label>
+        <input type="text" name="title" value="<%= book.title %>">
+    </div>
+    <div class="form-item">
+        <label for="author">アップローダー名</label>
+        <select name="author">
+            <% authors.forEach(author => { %>
+                <% if (author.id === book.author)  { %>
+                    <option selected label="<%= author.name %>" value="<%= author.id %>"></option>
+                <% } else { %>
+                    <option label="<%= author.name %>" value="<%= author.id %>"></option>
+                <% } %>
+            <% }); %>
+        </select>
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-item">
+        <label for="publishDate">撮影日付</label>
+        <input type="date" name="publishDate" 
+            value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>"> <!-- contohnya didapat 2013-09-19T12:23 -> dimasukinnya2013-09-19 saja -->
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-item form-item-no-grow">
+        <label for="cover">画像</label>
+        <input type="file" name="cover" class="book-cover filepond">
+    </div>
+    <div class="form-item">
+        <label for="description">説明</label>
+        <textarea name="description"><%= book.description %></textarea>
+    </div>
+</div>
+
+
+

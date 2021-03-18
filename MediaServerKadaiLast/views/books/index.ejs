@@ -1,0 +1,25 @@
+<h2 class="page-header">画像検索</h2>
+<form action="/books" method="GET"><!-- pakai get karena di routes(controller)-nya pakai router.get -->
+    <div class="form-row">
+        <div class="form-item">
+            <label for="title">題名</label>
+            <input type="text" name="title" value="<%= searchOptions.title %>">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-item">
+            <label for="publishedAfter">(日付)以降にアップロード</label>
+            <input type="date" name="publishedAfter" value="<%= searchOptions.publishedAfter %>">
+        </div>
+        <div class="form-item">
+            <label for="publishedBefore">(日付)より前にアップロード</label>
+            <input type="date" name="publishedBefore" value="<%= searchOptions.publishedBefore %>">
+        </div>
+    </div>
+    <div class="form-row form-row-end">
+        <button class="btn btn-primary" type="submit">検索</button>
+    </div>
+</form>
+<br>
+<%- include('../partials/bookGrid', { books: books, large: true }) %>

@@ -1,0 +1,70 @@
+const { render } = require("ejs");
+const express = require("express");
+const multer = require('multer');
+const path = require('path');
+const router = express.Router();
+const Book = require('../models/book');
+const Author = require('../models/author');
+const uploadPath = path.join('public', Book.coverImageBasePath) //join 2 different path(s)
+const imgageMimeTypes = ['image/jpeg', 'image/png', 'images/gif'];
+const upload = multer({
+    dest: uploadPath,
+    fileFilter: (req, file, callback) => {
+        callback(null, imgageMimeTypes.includes(file.mimetype)); //1st param = null, cuz no error (this is error param), 2nd param: boolean true = file accepted
+    }
+});
+
+
+// All Book Routes
+
+router.get('/', async (req, res) => {
+    res.send('All Books');
+})
+
+// New Book Route
+// for showing the view
+router.get('/new', async (req,res) => {
+    renderNewPage(res, new Book());
+})
+
+//  Create Book Route
+router.post('/', upload.single('cover'), async (req, res) => { //'cover' here same name as in ejs input name
+    const fileName = req.file != null ? req.file.filename : null //file variable here was automatically added by the library multer(?)
+    const book = new Book ({
+        title: req.body.title,
+        author: req.body.author,
+        publishDate: new Date(req.body.publishDate), //convert string to Date
+        pageCount: req.body.pageCount,
+        coverImageName : fileName,
+        description: req.body.description
+    });
+    // console.log(book)
+    try{
+        const newBook = await book.save();
+        // res.redirect(`books/${newBook.id}`)
+        console.log('masuk sini')
+        res.redirect(`books`)
+    } catch {
+        renderNewPage(res, book, true);
+        console.log('masuk error')
+    }
+})
+
+async function renderNewPage(res, book, hasError = false) {
+    try{
+        const authors = await Author.find({}) ;//must require Author model in order to use
+        const params = {
+            authors: authors,
+            book: book
+        }
+        if(hasError) {
+            params.errorMessage = 'Error Adding New Book'
+        };
+        res.render('books/new', params);
+    } catch {
+        res.redirect('/books');
+    }
+}
+
+// exporting this file so can be used in other .js file
+module.exports = router
