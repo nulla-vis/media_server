@@ -1,0 +1,17 @@
+{
+  "name": "kadai",
+  "version": "1.0.0",
+  "description": "Media Server Task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Azhandi Ismail Usemahu",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.0.2",
+    "encoding-japanese": "^1.0.30",
+    "express": "^4.17.1",
+    "hbs": "^4.1.1"
+  }
+}
